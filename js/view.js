@@ -1,6 +1,5 @@
 import Model from "./model.js";
 import * as control from "./controller.js";
-import "core-js/stable";
 
 class InterfaceControl {
   #recipeContainer = document.querySelector(".recipe__container");

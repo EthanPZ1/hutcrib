@@ -1,6 +1,5 @@
 import { API_KEY } from "./config.js";
 import Interface from "./view.js";
-import "core-js/stable";
 
 export const API_URL = async (url) => {
   Interface.showSpinner(document.querySelector(".recipe__container"));

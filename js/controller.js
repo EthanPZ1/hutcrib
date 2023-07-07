@@ -1,7 +1,6 @@
 import Model from "./model.js";
 import Interface from "./view.js";
 import { throwErr } from "./helpers.js";
-import "core-js/stable";
 
 // On-Start functions //////
 (function init() {

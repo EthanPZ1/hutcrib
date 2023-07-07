@@ -1,5 +1,4 @@
 import { API_URL, throwErr, showInfo } from "./helpers.js";
-import "core-js/stable";
 
 class Model {
   #bookmarks = [];
