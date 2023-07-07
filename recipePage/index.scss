@@ -1,0 +1,236 @@
+@import '../externalCss/global.css';
+
+body {
+  font-family: 'Poppins';
+  background-color: $bgColor;
+  color: white;
+}
+
+main {
+  max-width: 1440px;
+  margin: auto;
+  padding: 0 20px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+
+  div {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  input {
+    background-color: $mainColor;
+    border: none;
+    color: white;
+    font-size: 14px;
+    padding: 8px;
+    border-radius: 5px;
+    outline: none;
+    font-family: 'Poppins';
+
+    &::placeholder {
+      color: white;
+    }
+  }
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    gap: 5px;
+
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    background-color: $mainColor;
+  }
+
+  svg {
+    background-color: $mainColor;
+    padding: 2px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+}
+
+.recipe__container {
+  padding: 20px;
+  background-color: $divColor;
+  margin: 40px 0;
+  border-radius: 10px;
+  
+  .recipes__wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    // place-items: center;
+    gap: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  img {
+    width: 100%;
+    width: 300px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+
+  h3 {
+    max-width: 300px;
+  }
+
+  h2 {
+    margin-bottom: 20px;
+  }
+
+  .load__btn-wrapper {
+    margin-top: 60px;
+    text-align: center;
+
+    button {
+      background-color: $mainColor;
+      color: white;
+      border: none;
+      font-size: 18px;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  }
+}
+
+.wrap__recipe-page {
+  display: none;
+  flex-direction: column;
+  gap: 20px;
+  background-color: $divColor;
+  padding: 20px;
+  border-radius: 5px;
+  width: fit-content;
+  margin: 40px auto;
+
+  li {
+
+    span {
+      position: relative;
+      left: 10px;
+    }
+
+    &::marker {
+      content: url('../imgs/check.png');
+    }
+  }
+
+  .main__details {
+    div {
+      @include flex(center, center);
+      width: 100%;
+      height: 200px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      border-radius: 5px;
+      color: white;
+      padding: 10px;
+
+      &:hover {
+        opacity: 0.8;
+        cursor: pointer;
+      }
+
+      h2 {
+        background-color: $mainColor;
+        padding: 8px;
+        border-radius: 5px;
+        max-width: 600px;
+        text-align: center;
+      }
+
+      transition: all 0.1s linear;
+    }
+  }
+
+  .recipe__ingredients {
+    .ingredients {
+      list-style: inside;
+      border-radius: 10px;
+      width: fit-content;
+    }
+  }
+
+  .recipe__instructions {
+    margin-top: 10px;
+
+    p {
+      max-width: 700px;
+    }
+  }
+
+  .bookmark__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $mainColor;
+    padding: 5px;
+    width: fit-content;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    cursor: pointer;
+  }
+}
+
+.all__bookmarks {
+  display: none;
+
+  margin: 40px 0;
+  background-color: #222;
+  border-radius: 10px;
+  padding: 15px;
+
+  .upper__details {
+    @include flex(none, center);
+    gap: 10px;
+
+    svg {
+      background-color: $mainColor;
+      padding: 2px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  }
+
+  .bookmark__list {
+    @include flex(none, none);
+    flex-direction: column;
+    gap: 14px;
+
+    .bookmark {
+      @include flex(start, start);
+      gap: 10px;
+      padding: 10px;
+      background-color: #333;
+      margin-top: 10px;
+      border-radius: 10px;
+      cursor: pointer;
+  
+      img {
+        width: 100%;
+        max-width: 200px;
+        max-height: 100px;
+        object-fit: cover;
+        border-radius: 5px;
+      }
+    }
+  }
+}
