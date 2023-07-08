@@ -1,8 +1,9 @@
 import Model from "./model.js";
 import Interface from "./view.js";
-import { throwErr } from "./helpers.js";
+import { throwErr, showInfo } from "./helpers.js";
 
-// On-Start functions //////
+// !On-Start functions //////
+
 (function init() {
   // load and render data from API
   window.addEventListener("load", async () => {
@@ -127,7 +128,11 @@ export function bookmarkPageHandler() {
         if (!btn) return;
 
         const data = await Model.bookmarkRecipe(location.hash.slice(1));
-        if (data[1]) return;
+
+        if (data[1]) {
+          showInfo("Recipe already exists!");
+          return;
+        }
 
         data[0].meals.forEach((meal) => {
           Interface.renderBookmark(
@@ -137,6 +142,8 @@ export function bookmarkPageHandler() {
             meal.idMeal
           );
         });
+
+        showInfo("Saved to bookmarks!");
       } catch (err) {
         console.error(err);
       }

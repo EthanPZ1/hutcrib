@@ -5,11 +5,14 @@ class Model {
   startNum = 0;
   endNum = 20;
 
-  // Initial call from API (Kind of like a template to reuse)
+  // !Initial call from API (Kind of like a template to reuse)
+
   async loadRecipes() {
     try {
       const res = await API_URL("search.php?s=");
       const data = await res.json();
+
+      data.meals && showInfo("Loaded recipes!");
 
       if (this.endNum >= data.meals.length) showInfo("Reached The End!");
 

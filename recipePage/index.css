@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300&display=swap");
+
 @import url("../externalCss/global.css");
 
 * {
@@ -10,7 +11,7 @@
 
 body {
   font-family: "Poppins";
-  background-color: #111;
+  background-color: var(--bgColor);
   color: white;
 }
 
@@ -34,7 +35,7 @@ header div {
 }
 
 header input {
-  background-color: #ff5530;
+  background-color: var(--mainColor);
   border: none;
   color: white;
   font-size: 14px;
@@ -42,6 +43,7 @@ header input {
   border-radius: 5px;
   outline: none;
   font-family: "Poppins";
+  width: 100%;
 }
 
 header input::-moz-placeholder {
@@ -64,11 +66,11 @@ header button {
   padding: 8px;
   border-radius: 5px;
   border: none;
-  background-color: #ff5530;
+  background-color: var(--mainColor);
 }
 
 header svg {
-  background-color: #ff5530;
+  background-color: var(--mainColor);
   padding: 2px;
   border-radius: 5px;
   cursor: pointer;
@@ -81,7 +83,7 @@ a {
 
 .recipe__container {
   padding: 20px;
-  background-color: #222;
+  background-color: var(--divColor);
   margin: 40px 0;
   border-radius: 10px;
 }
@@ -123,7 +125,7 @@ a {
 }
 
 .recipe__container .load__btn-wrapper button {
-  background-color: #ff5530;
+  background-color: var(--mainColor);
   color: white;
   border: none;
   font-size: 16px;
@@ -136,7 +138,7 @@ a {
   display: none;
   flex-direction: column;
   gap: 20px;
-  background-color: #222;
+  background-color: var(--divColor);
   padding: 20px;
   border-radius: 5px;
   width: -moz-fit-content;
@@ -173,7 +175,7 @@ a {
 }
 
 .wrap__recipe-page .main__details div h2 {
-  background-color: #ff5530;
+  background-color: var(--mainColor);
   padding: 8px;
   border-radius: 5px;
   max-width: 600px;
@@ -199,7 +201,7 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #ff5530;
+  background-color: var(--mainColor);
   padding: 5px;
   width: -moz-fit-content;
   width: fit-content;
@@ -211,7 +213,7 @@ a {
 .all__bookmarks {
   display: none;
   margin: 40px 0;
-  background-color: #222;
+  background-color: var(--divColor);
   border-radius: 10px;
   padding: 15px;
 }
@@ -224,7 +226,7 @@ a {
 }
 
 .all__bookmarks .upper__details svg {
-  background-color: #ff5530;
+  background-color: var(--mainColor);
   padding: 2px;
   border-radius: 5px;
   cursor: pointer;
@@ -257,4 +259,14 @@ a {
   -o-object-fit: cover;
   object-fit: cover;
   border-radius: 5px;
+}
+
+@media only screen and (max-width: 800px) {
+  header input {
+    margin: 0 10px;
+  }
+
+  header input:focus {
+    display: none;
+  }
 }
