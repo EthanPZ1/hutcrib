@@ -1,6 +1,5 @@
 import Model from "./model.js";
 import * as control from "./controller.js";
-import "core-js/stable";
 
 class InterfaceControl {
   #recipeContainer = document.querySelector(".recipe__container");
@@ -8,11 +7,13 @@ class InterfaceControl {
   id;
   #isImgOpen = false;
   #hideMsg;
-  #allTimeouts = [this.#hideMsg];
+  #allTimeouts = [this.#hideMsg]; // TODO -> will use later
 
   constructor() {
     this._expandImg();
   }
+
+  // !General functions
 
   clearHTML(el) {
     el.innerHTML = "";
@@ -52,6 +53,15 @@ class InterfaceControl {
     errorMsgEl.show();
   }
 
+  // Check if main page is visible and acts accordingly
+  checkMainPageVisibility(el, display1, display2) {
+    !this.checkIfHidden(document.querySelector(".recipe__container"))
+      ? (document.querySelector(el).style.display = display1)
+      : (document.querySelector(el).style.display = display2);
+
+    return this;
+  }
+
   showInfoMsg(infoMsg) {
     const infoMsgEl = document.querySelector(".info_msg");
     infoMsgEl.firstElementChild.textContent = infoMsg;
@@ -63,15 +73,6 @@ class InterfaceControl {
     );
   }
 
-  // Check if main page is visible and acts accordingly
-  checkMainPageVisibility(el, display1, display2) {
-    !this.checkIfHidden(document.querySelector(".recipe__container"))
-      ? (document.querySelector(el).style.display = display1)
-      : (document.querySelector(el).style.display = display2);
-
-    return this;
-  }
-
   showSpinner() {
     document.querySelector(".loading").removeAttribute("hidden");
     return this;
@@ -81,6 +82,10 @@ class InterfaceControl {
     document.querySelector(".loading").setAttribute("hidden", "true");
     return this;
   }
+
+  //////////////////////////////////////////////////////////////// END
+
+  // !rendering something to the page <- related functions ////
 
   #markup(img, title, desc, id) {
     return `
@@ -102,26 +107,6 @@ class InterfaceControl {
       .insertAdjacentHTML("beforeend", this.#markup(img, title, desc, id));
 
     return this;
-  }
-
-  openRecipePage(img, title, instruction) {
-    const ingredientUl = document.querySelector(".ingredients");
-    this.clearHTML(ingredientUl);
-
-    document.querySelector(
-      ".recipe__img"
-    ).style.backgroundImage = `url('${img}')`;
-    document.querySelector(".recipe__title").textContent = title;
-    document.querySelector(".recipe__instructions-text").textContent =
-      instruction;
-
-    this.hideMainPage().makeHidden(".all__bookmarks");
-
-    this.#recipePage.style.display = "flex";
-
-    control.bookmarkPageHandler();
-
-    document.head.children[2].innerHTML = `HutCrib: ${title}`;
   }
 
   renderMeals(meals) {
@@ -152,51 +137,15 @@ class InterfaceControl {
           value && this.insertIng(value);
         }
       }
+
+      document.title = `HutCrib: ${data?.strMeal}`;
+      document.querySelector(
+        "#description__meta"
+      ).content = `Let's make some delicious ${data?.strMeal} today!`;
     }
   }
 
-  closeRecipePage() {
-    this.#recipePage.style.display = "none";
-    return this;
-  }
-
-  _expandImg() {
-    const expandedImg = document.querySelector(".expanded__img");
-    const correctThis = this;
-
-    this.#recipePage.addEventListener("click", function (e) {
-      const clickedEl = e.target;
-
-      if (!clickedEl.classList.contains("recipe__img")) return;
-
-      expandedImg.firstElementChild.src = getComputedStyle(clickedEl)
-        .getPropertyValue("background-image")
-        .slice(5)
-        .slice(0, -2);
-
-      correctThis.#isImgOpen = !correctThis.#isImgOpen;
-
-      !correctThis.#isImgOpen
-        ? (expandedImg.style.scale = 0)
-        : (expandedImg.style.scale = 1);
-    });
-  }
-
-  takeSearchInput() {
-    const correctThis = this;
-
-    const searchInput = document.querySelector("#input_recipe");
-    searchInput.addEventListener("input", async function () {
-      const data = await Model.searchForRecipe(this.value);
-
-      correctThis
-        .clearHTML(document.querySelector(".recipes__wrapper"))
-        .makeHidden(".load__more");
-
-      // Checking if data is valid
-      data && correctThis.renderMeals(data.meals);
-    });
-  }
+  // ?Bookmarks <- related functions //////////////////
 
   // Showing all bookmarks functionality
   showBookmarks() {
@@ -225,6 +174,87 @@ class InterfaceControl {
       .querySelector(".bookmark__list")
       .insertAdjacentHTML("afterbegin", markup);
   }
+
+  /////////////////////////////////////////////////////////// END
+
+  // !Recipe page <- related functions /////////////////////////////
+
+  closeRecipePage() {
+    this.#recipePage.style.display = "none";
+    return this;
+  }
+
+  openRecipePage(img, title, instruction) {
+    const ingredientUl = document.querySelector(".ingredients");
+    this.clearHTML(ingredientUl);
+
+    const recipeImg = document.querySelector(".recipe__img");
+    const recipeTitle = document.querySelector(".recipe__title");
+    const recipeInsTxt = document.querySelector(".recipe__instructions-text");
+
+    recipeImg.style.backgroundImage = `url('${img}')`;
+    recipeTitle.textContent = title;
+    recipeInsTxt.textContent = instruction;
+
+    this.hideMainPage().makeHidden(".all__bookmarks");
+    this.#recipePage.style.display = "flex";
+
+    control.bookmarkPageHandler();
+    scrollTo(0, 0);
+
+    document.head.children[2].innerHTML = `HutCrib: ${title}`;
+  }
+
+  _expandImg() {
+    const expandedImg = document.querySelector(".expanded__img");
+    const correctThis = this;
+
+    this.#recipePage.addEventListener("click", function (e) {
+      const clickedEl = e.target;
+
+      if (!clickedEl.classList.contains("recipe__img")) return;
+
+      expandedImg.firstElementChild.src = getComputedStyle(clickedEl)
+        .getPropertyValue("background-image")
+        .slice(5)
+        .slice(0, -2);
+
+      correctThis.#isImgOpen = !correctThis.#isImgOpen;
+
+      !correctThis.#isImgOpen
+        ? (expandedImg.style.scale = 0)
+        : (expandedImg.style.scale = 1);
+    });
+  }
+
+  /////////////////////////////////////////////////////////////////// END
+
+  // !searching <- related functions
+
+  takeSearchInput() {
+    const correctThis = this;
+    const searchInput = document.querySelector("#input_recipe");
+
+    const markup =
+      '<p style="color: darkgray; text-align: center;">Nothing here...</p>';
+
+    searchInput.addEventListener("input", async function () {
+      const data = await Model.searchForRecipe(this.value);
+
+      correctThis
+        .clearHTML(document.querySelector(".recipes__wrapper"))
+        .makeHidden(".load__more");
+
+      // Checking if data is valid
+      data.meals
+        ? correctThis.renderMeals(data.meals)
+        : document
+            .querySelector(".recipes__wrapper")
+            .insertAdjacentHTML("afterbegin", markup);
+    });
+  }
+
+  ///////////////////////////////////////////////////////////////// END
 }
 
 export default new InterfaceControl();
