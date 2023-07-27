@@ -23,6 +23,8 @@ class Model {
 
       data.meals && showInfo("Loaded recipes!");
 
+      data.meals && showInfo("Loaded recipes!");
+
       if (this.endNum >= data.meals.length) showInfo("Reached The End!");
 
       return data.meals.slice(this.startNum, this.endNum);
